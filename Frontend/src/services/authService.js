@@ -8,7 +8,7 @@ export const register = async ({ name, email, password }) => {
             name,
             email,
             password
-        })
+        }, { withCredentials: true })
         return response
     } catch (error) {
         console.error('Error registering user', error.message)
@@ -31,10 +31,10 @@ export const login = async ({ email, password }) => {
 // Logout Service
 export const logout = async () => {
     try {
-        const logout = await axios.post(`${SERVER_URL}/logout`,{
+        const response = await axios.post(`${SERVER_URL}/logout`, {}, {
             withCredentials: true
         })
-        return response
+        return response.data
     } catch (error) {
         throw new Error('Couldn`t Logout')
     }

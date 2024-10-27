@@ -1,24 +1,31 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { logout } from '../services/authService'
+import {useAuth} from '../services/authContext'
 
 function Welcome() {
-
-  const Navigate = useNavigate
+  const navigate = useNavigate()
+  const { isLoggedIn, user } = useAuth() // Correct destructuring
 
   const handleLogout = async () => {
     try {
-      await logout
-      Navigate('/')
+      await logout()
+      navigate('/')
     } catch (error) {
-      throw new error('Something went wrong')
+      throw new Error('Something went wrong')
     }
   }
 
   return (
     <>
-        <h1>Welcome to my React App</h1>
-        <Link to={"/"} onClick={handleLogout}>Logout</Link>
+      {isLoggedIn && user ? (
+        <>
+          <h1>Welcome {user.userName}</h1>
+          <button onClick={handleLogout}>Logout</button>
+        </>
+      ) : (
+        <h1>Loading...</h1>
+      )}
     </>
   )
 }

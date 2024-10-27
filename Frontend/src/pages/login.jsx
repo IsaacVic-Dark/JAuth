@@ -5,9 +5,11 @@ import { login } from "../services/authService";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
+    setLoading(true)
     e.preventDefault();
     try {
       const res = await login({ email, password });
@@ -25,11 +27,13 @@ function Login() {
     }
   };
 
+  const isLoginDisabled = email === '' || password.length < 1 || loading;
+
   return (
     <>
     <Link to={"/"}>Back</Link>
       <h1>This is the login page</h1>
-      <form onSubmit={handleLogin}>
+      <form>
         <input
           type="email"
           placeholder="Enter Your Email"
@@ -42,7 +46,9 @@ function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Submit</button>
+        <button  onClick={handleLogin} disabled={isLoginDisabled}>
+          {loading ? 'Logging In ...' : 'Login'}
+        </button>
       </form>
       <Link to={"/register"}>Create an account</Link>
     </>

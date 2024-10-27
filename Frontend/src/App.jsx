@@ -5,7 +5,7 @@ function App() {
   
   return (
     <>
-      <h1>Welcome Isaac</h1>
+      <h1>Welcome JAuth</h1>
       <Link to="/login">Login</Link>
       <Link to="/register">register</Link>
     </>
